@@ -3,9 +3,10 @@ package misc;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.Set;
 
 public class RecordProcessor {
 
@@ -28,29 +29,33 @@ public class RecordProcessor {
 	
 	
 	public RecordProcessor() {
-		firstNamesCount = new HashMap<String, Integer>();
-		lastNamesCount = new HashMap<String, Integer>();
+		outputBuffer = new StringBuffer();
+		this.firstNamesCount = new HashMap<String, Integer>();
+		this.lastNamesCount = new HashMap<String, Integer>();
+		this.employees = new ArrayList<EmployeeRecord>();
 		
-		ageSum = 0;
-		averageAge = 0f;
-		commissionEmployeeCount = 0;
-		commissionPaySum = 0;
-		commissionAveragePayment = 0;
-		hourlyEmployeeCount = 0;
-		hourlyPaySum = 0;
-		hourlyAveragePayment = 0;
-		salaryEmployeeCount = 0;
-		salaryPaySum = 0;
-		salaryAveragePayment = 0;
+		this.ageSum = 0;
+		this.averageAge = 0f;
+		this.commissionEmployeeCount = 0;
+		this.commissionPaySum = 0;
+		this.commissionAveragePayment = 0;
+		this.hourlyEmployeeCount = 0;
+		this.hourlyPaySum = 0;
+		this.hourlyAveragePayment = 0;
+		this.salaryEmployeeCount = 0;
+		this.salaryPaySum = 0;
+		this.salaryAveragePayment = 0;
 	}
 			
 	public static String processFile(String inputFile) {
 		RecordProcessor recordProcessor = new RecordProcessor();
 		recordProcessor.convertFileToRecords(inputFile);
+		if(recordProcessor.employees.size() == 0) return recordProcessor.outputBuffer.toString();
+		recordProcessor.initOutput();
+
 		recordProcessor.sumUpNumbers();
 		recordProcessor.calculateAverages();
 		recordProcessor.createOutput();
-		
 		return recordProcessor.outputBuffer.toString();
 	}
 	
@@ -70,13 +75,14 @@ public class RecordProcessor {
 		}
 		
 		console.close();
+		Collections.sort(employees);
 	}
 	
 	private void addRecord(String currentLine){
 		String [] words = currentLine.split(",");
 		EmployeeRecord record = new EmployeeRecord();
-		record.setLastName(words[0]);
-		record.setFirstName(words[1]);
+		record.setFirstName(words[0]);
+		record.setLastName(words[1]);
 		record.setAge(words[2]);
 		record.setEmploymentType(words[3]);
 		record.setPaymentAmmount(words[4]);
@@ -104,11 +110,15 @@ public class RecordProcessor {
 	}
 	
 	private void createOutput() {
-		this.initOutput();
 		if(firstNamesCount.size() == 0 && lastNamesCount.size() == 0) {
 			outputBuffer.append(String.format("All last names are unique"));
 			return;
 		}
+		outputBuffer.append(String.format("\nAverage age:         %12.1f\n", this.averageAge));
+		outputBuffer.append(String.format("Average commission:  $%12.2f\n", this.commissionAveragePayment));
+		outputBuffer.append(String.format("Average hourly wage: $%12.2f\n", this.hourlyAveragePayment));
+		outputBuffer.append(String.format("Average salary:      $%12.2f\n", this.salaryAveragePayment));
+		
 		outputBuffer.append(String.format("\nFirst names with more than one person sharing it:\n"));
 		this.findSharedFirstNames();
 		outputBuffer.append(String.format("\nLast names with more than one person sharing it:\n"));
@@ -144,15 +154,15 @@ public class RecordProcessor {
 	
 	private void incrementEmployeeType(EmployeeRecord employee) {
 		switch(employee.getEmploymentType()) {
-		case 1:
+		case "Commission":
 			this.commissionEmployeeCount++;
 			this.commissionPaySum += employee.getPaymentAmmount();
 			break;
-		case 2:
+		case "Hourly":
 			this.hourlyEmployeeCount++;
 			this.hourlyPaySum += employee.getPaymentAmmount();
 			break;
-		case 3:
+		case "Salary":
 			this.salaryEmployeeCount++;
 			this.salaryPaySum += employee.getPaymentAmmount();
 		}
@@ -171,6 +181,7 @@ public class RecordProcessor {
 		for(int i = 0; i < 12; i++)
 			outputBuffer.append(String.format("-"));
 		outputBuffer.append(String.format("\n"));
+		
 	}
 	
 	private void findSharedFirstNames(){

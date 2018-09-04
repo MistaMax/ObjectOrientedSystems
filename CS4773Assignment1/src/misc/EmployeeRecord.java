@@ -1,6 +1,6 @@
 package misc;
 
-public class EmployeeRecord {
+public class EmployeeRecord implements Comparable<EmployeeRecord> {
 	public static int COMMISSION = 1;
 	public static int HOURLY = 2;
 	public static int SALARY = 3;
@@ -8,7 +8,7 @@ public class EmployeeRecord {
 	private String firstName;
 	private String lastName;
 	private int age;
-	private int employmentType;
+	private EmployeeTypes employmentType;
 	private double paymentAmmount;
 	
 	
@@ -46,20 +46,20 @@ public class EmployeeRecord {
 		}
 	}
 
-	public int getEmploymentType() {
-		return employmentType;
+	public String getEmploymentType() {
+		return employmentType.toString();
 	}
 
 	public void setEmploymentType(String employmentType) {
 		switch (employmentType.toLowerCase()) {
 		case "commission":
-			this.employmentType = COMMISSION;
+			this.employmentType = EmployeeTypes.Commission;
 			break;
 		case "hourly":
-			this.employmentType = HOURLY;
+			this.employmentType = EmployeeTypes.Hourly;
 			break;
 		case "salary":
-			this.employmentType = SALARY;
+			this.employmentType = EmployeeTypes.Salary;
 		}
 	}
 
@@ -79,6 +79,11 @@ public class EmployeeRecord {
 	public String toString() {
 		return String.format("%-30s %-3d  %-12s $%12.2f\n", this.getFirstName() + " " + this.getLastName(), this.getAge()
 				, this.getEmploymentType(), this.getPaymentAmmount());
+	}
+
+	@Override
+	public int compareTo(EmployeeRecord o) {
+		return this.getLastName().compareTo(o.getLastName());
 	}
 	
 }
