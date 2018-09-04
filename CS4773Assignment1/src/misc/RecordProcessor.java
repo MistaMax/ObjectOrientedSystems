@@ -59,7 +59,7 @@ public class RecordProcessor {
 	}
 	
 	public static String processFile(String f) {
-		StringBuffer newEmployeeRecord = new StringBuffer();
+		StringBuffer newEmployeeRecords = new StringBuffer();
 		
 		Scanner console = null;
 		try {
@@ -104,56 +104,56 @@ public class RecordProcessor {
 		}
 		
 		//print the rows
-		newEmployeeRecord.append(String.format("# of people imported: %d\n", firstName.length));
+		newEmployeeRecords.append(String.format("# of people imported: %d\n", firstName.length));
 		
-		newEmployeeRecord.append(String.format("\n%-30s %s  %-12s %12s\n", "Person Name", "Age", "Emp. Type", "Pay"));
+		newEmployeeRecords.append(String.format("\n%-30s %s  %-12s %12s\n", "Person Name", "Age", "Emp. Type", "Pay"));
 		for(int i = 0; i < 30; i++)
-			newEmployeeRecord.append(String.format("-"));
-		newEmployeeRecord.append(String.format(" ---  "));
+			newEmployeeRecords.append(String.format("-"));
+		newEmployeeRecords.append(String.format(" ---  "));
 		for(int i = 0; i < 12; i++)
-			newEmployeeRecord.append(String.format("-"));
-		newEmployeeRecord.append(String.format(" "));
+			newEmployeeRecords.append(String.format("-"));
+		newEmployeeRecords.append(String.format(" "));
 		for(int i = 0; i < 12; i++)
-			newEmployeeRecord.append(String.format("-"));
-		newEmployeeRecord.append(String.format("\n"));
+			newEmployeeRecords.append(String.format("-"));
+		newEmployeeRecords.append(String.format("\n"));
 		
 		for(int i = 0; i < firstName.length; i++) {
-			newEmployeeRecord.append(String.format("%-30s %-3d  %-12s $%12.2f\n", firstName[i] + " " + lastName[i], age[i]
+			newEmployeeRecords.append(String.format("%-30s %-3d  %-12s $%12.2f\n", firstName[i] + " " + lastName[i], age[i]
 				, employmentType[i], paymentAmmount[i]));
 		}
 		
-		int sum1 = 0;
-		float avg1 = 0f;
-		int c2 = 0;
-		double sum2 = 0;
-		double avg2 = 0;
-		int c3 = 0;
-		double sum3 = 0;
-		double avg3 = 0;
-		int c4 = 0;
-		double sum4 = 0;
-		double avg4 = 0;
+		int ageSum = 0;
+		float averageAge = 0f;
+		int commissionEmployeeCount = 0;
+		double commissionPaySum = 0;
+		double commissionAveragePayment = 0;
+		int hourlyEmployeeCount = 0;
+		double hourlyPaySum = 0;
+		double hourlyAveragePayment = 0;
+		int salaryEmployeeCount = 0;
+		double salaryPaySum = 0;
+		double salaryAveragePayment = 0;
 		for(int i = 0; i < firstName.length; i++) {
-			sum1 += age[i];
+			ageSum += age[i];
 			if(employmentType[i].equals("Commission")) {
-				sum2 += paymentAmmount[i];
-				c2++;
+				commissionPaySum += paymentAmmount[i];
+				commissionEmployeeCount++;
 			} else if(employmentType[i].equals("Hourly")) {
-				sum3 += paymentAmmount[i];
-				c3++;
+				hourlyPaySum += paymentAmmount[i];
+				hourlyEmployeeCount++;
 			} else if(employmentType[i].equals("Salary")) {
-				sum4 += paymentAmmount[i];
-				c4++;
+				salaryPaySum += paymentAmmount[i];
+				salaryEmployeeCount++;
 			}
 		}
-		avg1 = (float) sum1 / firstName.length;
-		newEmployeeRecord.append(String.format("\nAverage age:         %12.1f\n", avg1));
-		avg2 = sum2 / c2;
-		newEmployeeRecord.append(String.format("Average commission:  $%12.2f\n", avg2));
-		avg3 = sum3 / c3;
-		newEmployeeRecord.append(String.format("Average hourly wage: $%12.2f\n", avg3));
-		avg4 = sum4 / c4;
-		newEmployeeRecord.append(String.format("Average salary:      $%12.2f\n", avg4));
+		averageAge = (float) ageSum / firstName.length;
+		newEmployeeRecords.append(String.format("\nAverage age:         %12.1f\n", averageAge));
+		commissionAveragePayment = commissionPaySum / commissionEmployeeCount;
+		newEmployeeRecords.append(String.format("Average commission:  $%12.2f\n", commissionAveragePayment));
+		hourlyAveragePayment = hourlyPaySum / hourlyEmployeeCount;
+		newEmployeeRecords.append(String.format("Average hourly wage: $%12.2f\n", hourlyAveragePayment));
+		salaryAveragePayment = salaryPaySum / salaryEmployeeCount;
+		newEmployeeRecords.append(String.format("Average salary:      $%12.2f\n", salaryAveragePayment));
 		
 		HashMap<String, Integer> hm = new HashMap<String, Integer>();
 		int c1 = 0;
@@ -166,16 +166,16 @@ public class RecordProcessor {
 			}
 		}
 
-		newEmployeeRecord.append(String.format("\nFirst names with more than one person sharing it:\n"));
+		newEmployeeRecords.append(String.format("\nFirst names with more than one person sharing it:\n"));
 		if(c1 > 0) {
 			Set<String> set = hm.keySet();
 			for(String str : set) {
 				if(hm.get(str) > 1) {
-					newEmployeeRecord.append(String.format("%s, # people with this name: %d\n", str, hm.get(str)));
+					newEmployeeRecords.append(String.format("%s, # people with this name: %d\n", str, hm.get(str)));
 				}
 			}
 		} else { 
-			newEmployeeRecord.append(String.format("All first names are unique"));
+			newEmployeeRecords.append(String.format("All first names are unique"));
 		}
 
 		HashMap<String, Integer> hm2 = new HashMap<String, Integer>();
@@ -189,22 +189,22 @@ public class RecordProcessor {
 			}
 		}
 
-		newEmployeeRecord.append(String.format("\nLast names with more than one person sharing it:\n"));
+		newEmployeeRecords.append(String.format("\nLast names with more than one person sharing it:\n"));
 		if(c21 > 0) {
 			Set<String> set = hm2.keySet();
 			for(String str : set) {
 				if(hm2.get(str) > 1) {
-					newEmployeeRecord.append(String.format("%s, # people with this name: %d\n", str, hm2.get(str)));
+					newEmployeeRecords.append(String.format("%s, # people with this name: %d\n", str, hm2.get(str)));
 				}
 			}
 		} else { 
-			newEmployeeRecord.append(String.format("All last names are unique"));
+			newEmployeeRecords.append(String.format("All last names are unique"));
 		}
 		
 		//close the file
 		console.close();
 		
-		return newEmployeeRecord.toString();
+		return newEmployeeRecords.toString();
 	}
 	
 }
