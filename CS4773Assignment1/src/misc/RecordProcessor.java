@@ -43,9 +43,6 @@ public class RecordProcessor {
 		salaryPaySum = 0;
 		salaryAveragePayment = 0;
 	}
-	
-	
-
 			
 	public static String processFile(String inputFile) {
 		RecordProcessor recordProcessor = new RecordProcessor();
@@ -106,7 +103,6 @@ public class RecordProcessor {
 		this.salaryAveragePayment = this.salaryPaySum / this.salaryEmployeeCount;
 	}
 	
-	
 	private void createOutput() {
 		this.initOutput();
 		if(firstNamesCount.size() == 0 && lastNamesCount.size() == 0) {
@@ -123,8 +119,6 @@ public class RecordProcessor {
 
 		
 	}
-	
-	
 	
 	private void incrementFirstNameCount(String firstName) {
 		int count = 1;
@@ -196,8 +190,4 @@ public class RecordProcessor {
 			outputBuffer.append(String.format("%s, # people with this name: %d\n", key, count));
 		}
 	}
-	
-	
-	
-	
 }
