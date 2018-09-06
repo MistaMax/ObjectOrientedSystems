@@ -3,7 +3,6 @@ package misc;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -67,15 +66,34 @@ public class RecordProcessor {
 			System.err.println(e.getMessage());
 			return;
 		}
-		
+		int count = 0;
 		while(console.hasNextLine()) {
 			String currentLine = console.nextLine();
 			if(currentLine.length() > 0)
-				this.addRecord(currentLine);
+				count++;
 		}
 		
-		console.close();
-		Collections.sort(employees);
+		if(count == 0) {
+			System.err.println("No records found in data file");
+			console.close();
+		}
+		else {
+			try {
+				console = new Scanner(new File(inputFile));
+			} catch (FileNotFoundException e) {
+				System.err.println(e.getMessage());
+				return;
+			}
+			while(console.hasNextLine()) {
+				String currentLine = console.nextLine();
+				if(currentLine.length() > 0)
+					this.addRecord(currentLine);
+			}
+			
+			console.close();
+			Collections.sort(employees);
+		}
+		
 	}
 	
 	private void addRecord(String currentLine){
