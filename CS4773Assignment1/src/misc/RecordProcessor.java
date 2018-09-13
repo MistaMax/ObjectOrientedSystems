@@ -97,13 +97,13 @@ public class RecordProcessor {
 	}
 	
 	private void addRecord(String currentLine){
-		String [] words = currentLine.split(",");
+		String [] recordDataEntry = currentLine.split(",");
 		EmployeeRecord record = new EmployeeRecord();
-		record.setFirstName(words[0]);
-		record.setLastName(words[1]);
-		record.setAge(words[2]);
-		record.setEmploymentType(words[3]);
-		record.setPaymentAmmount(words[4]);
+		record.setFirstName(recordDataEntry[0]);
+		record.setLastName(recordDataEntry[1]);
+		record.setAge(recordDataEntry[2]);
+		record.setEmploymentType(recordDataEntry[3]);
+		record.setPaymentAmmount(recordDataEntry[4]);
 		
 		employees.add(record);
 		
