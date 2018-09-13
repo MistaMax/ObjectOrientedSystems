@@ -50,6 +50,7 @@ public class RecordProcessor {
 		try {
 			RecordProcessor recordProcessor = new RecordProcessor();
 			recordProcessor.convertFileToRecords(inputFile);
+			if(recordProcessor.employees.size() == 0) return null;
 			recordProcessor.initOutput();
 
 			recordProcessor.sumUpNumbers();
