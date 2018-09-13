@@ -50,7 +50,6 @@ public class RecordProcessor {
 		try {
 			RecordProcessor recordProcessor = new RecordProcessor();
 			recordProcessor.convertFileToRecords(inputFile);
-			if(recordProcessor.employees.size() == 0) return recordProcessor.outputBuffer.toString();
 			recordProcessor.initOutput();
 
 			recordProcessor.sumUpNumbers();
@@ -73,7 +72,9 @@ public class RecordProcessor {
 			if(currentLine.length() > 0)
 				this.addRecord(currentLine);
 		}
-		
+		if(this.employees.isEmpty()) {
+			System.err.println("No records found on file");
+		}
 		console.close();
 		Collections.sort(employees);
 	}

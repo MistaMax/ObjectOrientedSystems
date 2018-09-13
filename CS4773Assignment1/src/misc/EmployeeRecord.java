@@ -21,25 +21,25 @@ public class EmployeeRecord implements Comparable<EmployeeRecord> {
 		return firstName;
 	}
 
-	public void setFirstName(String word) {
-		this.firstName = word;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getLastName() {
 		return lastName;
 	}
 
-	public void setLastName(String word) {
-		this.lastName = word;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public int getAge() {
 		return age;
 	}
 
-	public void setAge(String word) {
+	public void setAge(String age) {
 		try {
-			this.age = Integer.parseInt(word);
+			this.age = Integer.parseInt(age);
 		} catch(NumberFormatException e) {
 			System.err.println(e.getMessage());
 			this.age = 0;
@@ -67,9 +67,9 @@ public class EmployeeRecord implements Comparable<EmployeeRecord> {
 		return paymentAmmount;
 	}
 
-	public void setPaymentAmmount(String words) {
+	public void setPaymentAmmount(String payAmmnt) {
 		try {
-			this.paymentAmmount = Double.parseDouble(words);
+			this.paymentAmmount = Double.parseDouble(payAmmnt);
 		} catch(NumberFormatException e) {
 			System.err.println(e.getMessage());
 			this.paymentAmmount = 0;
@@ -82,8 +82,8 @@ public class EmployeeRecord implements Comparable<EmployeeRecord> {
 	}
 
 	@Override
-	public int compareTo(EmployeeRecord o) {
-		return this.getLastName().compareTo(o.getLastName());
+	public int compareTo(EmployeeRecord employee) {
+		return this.getLastName().compareTo(employee.getLastName());
 	}
 	
 }
