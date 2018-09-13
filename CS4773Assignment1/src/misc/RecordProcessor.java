@@ -47,53 +47,35 @@ public class RecordProcessor {
 	}
 			
 	public static String processFile(String inputFile) {
-		RecordProcessor recordProcessor = new RecordProcessor();
-		recordProcessor.convertFileToRecords(inputFile);
-		if(recordProcessor.employees.size() == 0) return recordProcessor.outputBuffer.toString();
-		recordProcessor.initOutput();
+		try {
+			RecordProcessor recordProcessor = new RecordProcessor();
+			recordProcessor.convertFileToRecords(inputFile);
+			if(recordProcessor.employees.size() == 0) return recordProcessor.outputBuffer.toString();
+			recordProcessor.initOutput();
 
-		recordProcessor.sumUpNumbers();
-		recordProcessor.calculateAverages();
-		recordProcessor.createOutput();
-		return recordProcessor.outputBuffer.toString();
+			recordProcessor.sumUpNumbers();
+			recordProcessor.calculateAverages();
+			recordProcessor.createOutput();
+			return recordProcessor.outputBuffer.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 	
-	private void convertFileToRecords(String inputFile) {
+	private void convertFileToRecords(String inputFile) throws FileNotFoundException  {
 		Scanner console = null;
-		try {
-			console = new Scanner(new File(inputFile));
-		} catch (FileNotFoundException e) {
-			System.err.println(e.getMessage());
-			return;
-		}
-		int count = 0;
+		console = new Scanner(new File(inputFile));
+		
 		while(console.hasNextLine()) {
 			String currentLine = console.nextLine();
 			if(currentLine.length() > 0)
-				count++;
+				this.addRecord(currentLine);
 		}
 		
-		if(count == 0) {
-			System.err.println("No records found in data file");
-			console.close();
-		}
-		else {
-			try {
-				console = new Scanner(new File(inputFile));
-			} catch (FileNotFoundException e) {
-				System.err.println(e.getMessage());
-				return;
-			}
-			while(console.hasNextLine()) {
-				String currentLine = console.nextLine();
-				if(currentLine.length() > 0)
-					this.addRecord(currentLine);
-			}
-			
-			console.close();
-			Collections.sort(employees);
-		}
-		
+		console.close();
+		Collections.sort(employees);
 	}
 	
 	private void addRecord(String currentLine){
