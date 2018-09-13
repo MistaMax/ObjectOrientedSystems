@@ -50,15 +50,19 @@ public class RecordProcessor {
 		try {
 			RecordProcessor recordProcessor = new RecordProcessor();
 			recordProcessor.convertFileToRecords(inputFile);
-			if(recordProcessor.employees.size() == 0) return null;
+			if(recordProcessor.employees.isEmpty()) { 
+				System.err.println("No records found on file");
+				return null; 
+			}
 			recordProcessor.initOutput();
-
+			
 			recordProcessor.sumUpNumbers();
 			recordProcessor.calculateAverages();
 			recordProcessor.createOutput();
+
 			return recordProcessor.outputBuffer.toString();
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			return null;
 		}
 		
@@ -72,9 +76,6 @@ public class RecordProcessor {
 			String currentLine = console.nextLine();
 			if(currentLine.length() > 0)
 				this.addRecord(currentLine);
-		}
-		if(this.employees.isEmpty()) {
-			System.err.println("No records found on file");
 		}
 		console.close();
 		Collections.sort(employees);

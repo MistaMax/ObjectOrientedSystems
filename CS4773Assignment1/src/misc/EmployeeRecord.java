@@ -1,5 +1,7 @@
 package misc;
 
+import java.io.UncheckedIOException;
+
 public class EmployeeRecord implements Comparable<EmployeeRecord> {
 	public static int COMMISSION = 1;
 	public static int HOURLY = 2;
@@ -41,8 +43,8 @@ public class EmployeeRecord implements Comparable<EmployeeRecord> {
 		try {
 			this.age = Integer.parseInt(age);
 		} catch(NumberFormatException e) {
-			System.err.println(e.getMessage());
-			this.age = 0;
+			System.err.println("Invalid age: " + age);
+			throw e;
 		}
 	}
 
@@ -50,7 +52,7 @@ public class EmployeeRecord implements Comparable<EmployeeRecord> {
 		return employmentType.toString();
 	}
 
-	public void setEmploymentType(String employmentType) {
+	public void setEmploymentType(String employmentType) throws RuntimeException {
 		switch (employmentType.toLowerCase()) {
 		case "commission":
 			this.employmentType = EmployeeTypes.Commission;
@@ -60,6 +62,10 @@ public class EmployeeRecord implements Comparable<EmployeeRecord> {
 			break;
 		case "salary":
 			this.employmentType = EmployeeTypes.Salary;
+			break;
+		default:
+			System.err.println("Invalid EmploymentType: " + employmentType);
+			throw new RuntimeException();
 		}
 	}
 
@@ -71,8 +77,8 @@ public class EmployeeRecord implements Comparable<EmployeeRecord> {
 		try {
 			this.paymentAmmount = Double.parseDouble(payAmmnt);
 		} catch(NumberFormatException e) {
-			System.err.println(e.getMessage());
-			this.paymentAmmount = 0;
+			System.err.println("Invalid PaymentAmmount: " + payAmmnt);
+			throw e;
 		}
 	}
 	@Override
