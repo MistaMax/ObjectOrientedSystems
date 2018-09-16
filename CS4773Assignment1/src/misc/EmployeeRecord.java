@@ -42,9 +42,8 @@ public class EmployeeRecord implements Comparable<EmployeeRecord> {
 	public void setAge(String age) {
 		try {
 			this.age = Integer.parseInt(age);
-		} catch(NumberFormatException e) {
-			System.err.println("Invalid age: " + age);
-			throw e;
+		} catch(NumberFormatException e) {			
+			throw new RuntimeException("Invalid age: " + age);
 		}
 	}
 
@@ -64,8 +63,7 @@ public class EmployeeRecord implements Comparable<EmployeeRecord> {
 			this.employmentType = EmployeeTypes.Salary;
 			break;
 		default:
-			System.err.println("Invalid EmploymentType: " + employmentType);
-			throw new RuntimeException();
+			throw new RuntimeException("Invalid EmploymentType: " + employmentType);
 		}
 	}
 
@@ -77,8 +75,7 @@ public class EmployeeRecord implements Comparable<EmployeeRecord> {
 		try {
 			this.paymentAmmount = Double.parseDouble(payAmmnt);
 		} catch(NumberFormatException e) {
-			System.err.println("Invalid PaymentAmmount: " + payAmmnt);
-			throw e;
+			throw new RuntimeException("Invalid payment ammount: " + payAmmnt);
 		}
 	}
 	@Override
